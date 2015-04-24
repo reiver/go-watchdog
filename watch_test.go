@@ -19,7 +19,6 @@ func TestOneForOneWatch(t *testing.T) {
 			t.Errorf("For initial watchdog, expected %d toilers but got %d.", expected, actual)
 		}
 
-
 	// Do this test 10 times.
 		const numChildToilers = 10
 		for i:=1; i<=numChildToilers; i++ {
@@ -49,7 +48,6 @@ func TestOneForAllWatch(t *testing.T) {
 		if expected, actual := 0, len(watchdog.(*oneForAll).toilers); expected != actual {
 			t.Errorf("For initial watchdog, expected %d toilers but got %d.", expected, actual)
 		}
-
 
 	// Do this test 10 times.
 		const numChildToilers = 10
