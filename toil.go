@@ -47,5 +47,9 @@ func watchedToil(toiler Toiler, crashFn func()) {
 		}()
 
 		toiler.Toil()
+
+		//@TODO: What should be done if the toiler.Toil() method
+		//       simply returns?
+		//       Should it be restarted? Should it be removed from the Watcher?
 	}()
 }
