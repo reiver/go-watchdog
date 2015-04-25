@@ -4,7 +4,9 @@ Package watchdog provides supervisor tree capabilities.
 A supervisor tree can help you create software that follows the 'crash-only software' design pattern,
 by allowing you to build a system made up of 'microrebootable' and 'microrecoverable' components.
 
-Some might recognize this library as being similar to those one might find in Erlang or Scala/Akka.
+(More is said about the 'crash-only software' design pattern later in this documentation.)
+
+Some might also recognize this library as being similar to facilities one might find in Erlang/OTP or Scala/Akka.
 
 There are 2 main interfaces in this package: Toiler and Watcher
 
@@ -114,21 +116,39 @@ The motivation for this library is to make it easier to create software that fol
 
 Crash-Only Software
 
-Crash-only software is described as:
+Crash-only software can be described as:
 
 "Crash-only programs crash safely and recover quickly.
 There is only one way to stop such software—by crashing it—and only one way to bring it up—by initiating recovery.
-Crash-only systems are built from crash-only components, and the use of transparent component-level retries hides intra-system component crashes from end users."
+Crash-only systems are built from crash-only components, and the use of transparent component-level retries hides intra-system component crashes from end users." [1]
 
 The Toiler interface tries to embody these ideas. It only contains 2 methods: Terminate and Toil.
 The Toiler's Terminate method can be thought of (manually) crashing the Toiler.
 (Although the Toiler can crash itself by calling panic().)
 The Toiler's Toil method can be thought of 'bringing up' the Toiler.
 
+There are properties of 'crash-only software' that [1] lists:
+
+Property (a): All important non-volatile state is managed by dedicated state stores.
+
+Property (b): Components have externally enforced boundaries.
+
+Property (c): All interactions between components have a timeout.
+
+Property (d): All resources are leased.
+
+Property (e): Requests are entirely self-describing.
+
+This library does not (and really cannot) enforce any of these properies.
+It is up to the person making use of this library to design and architect these properties into their software system.
+
 You can find more information about 'crash-only software' at:
-  * http://www.usenix.org/events/hotos03/tech/full_papers/candea/candea.pdf
-  * http://brooker.co.za/blog/2012/01/22/crash-only.html
-  * http://web.archive.org/web/20060426230247/http://crash.stanford.edu/
+
+[1] http://www.usenix.org/events/hotos03/tech/full_papers/candea/candea.pdf
+
+[2] http://brooker.co.za/blog/2012/01/22/crash-only.html
+
+[3] http://web.archive.org/web/20060426230247/http://crash.stanford.edu/
 
 */
 package watchdog
