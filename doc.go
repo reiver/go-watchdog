@@ -1,5 +1,10 @@
 /*
-Package watchdog provides supervisor tree capabilities, similar to those one might find in Erlang or Scala/Akka.
+Package watchdog provides supervisor tree capabilities.
+
+A supervisor tree can help you create software that follows the 'crash-only software' design pattern,
+by allowing you to build a system made up of 'microrebootable' and 'microrecoverable' components.
+
+Some might recognize this library as being similar to those one might find in Erlang or Scala/Akka.
 
 There are 2 main interfaces in this package: Toiler and Watcher
 
@@ -102,6 +107,28 @@ A Watcher is also a Toiler. So you can nest watchers. For example:
 	right.Watch(toiler3)
 	right.Watch(toiler4)
 	right.Watch(toiler5)
+
+Motivation
+
+The motivation for this library is to make it easier to create software that follows the 'crash-only software' design pattern.
+
+Crash-Only Software
+
+Crash-only software is described as:
+
+"Crash-only programs crash safely and recover quickly.
+There is only one way to stop such software—by crashing it—and only one way to bring it up—by initiating recovery.
+Crash-only systems are built from crash-only components, and the use of transparent component-level retries hides intra-system component crashes from end users."
+
+The Toiler interface tries to embody these ideas. It only contains 2 methods: Terminate and Toil.
+The Toiler's Terminate method can be thought of (manually) crashing the Toiler.
+(Although the Toiler can crash itself by calling panic().)
+The Toiler's Toil method can be thought of 'bringing up' the Toiler.
+
+You can find more information about 'crash-only software' at:
+  * http://www.usenix.org/events/hotos03/tech/full_papers/candea/candea.pdf
+  * http://brooker.co.za/blog/2012/01/22/crash-only.html
+  * http://web.archive.org/web/20060426230247/http://crash.stanford.edu/
 
 */
 package watchdog
