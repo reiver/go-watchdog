@@ -8,6 +8,8 @@ package watchdog
 // methods of the Watcher send messages on those channels.
 func (dog *wdt) watchover() {
 
+	toiling := false
+
 	Loop: for {
 		select {
 			case m := <- dog.message:
@@ -21,9 +23,15 @@ func (dog *wdt) watchover() {
 								dog.crashed(toiler)
 							})
 						}
+						toiling = true
 						close(msg.done)
 					case watch:
 						dog.toilers = append(dog.toilers, msg.toiler)
+						if toiling {
+							watchedToil(msg.toiler, func(){
+								dog.crashed(msg.toiler)
+							})
+						}
 						close(msg.done)
 					default:
 						//@TODO

@@ -23,7 +23,8 @@ func TestOneForOneToil(t *testing.T) {
 		var wg sync.WaitGroup
 
 	// Create 10 toilers.
-		for i:=1; i<=10; i++ {
+		const numChildToilers = 10
+		for i:=1; i<=numChildToilers; i++ {
 
 			// Create dummy toiler.
 			//
@@ -43,6 +44,24 @@ func TestOneForOneToil(t *testing.T) {
 	// The way this confirms is that if this is "hanging", then the Go runtime
 	// will panic with the error: "fatal error: all goroutines are asleep - deadlock!".
 		wg.Wait()
+
+
+	// Add another Toiler.
+	//
+	// We've already called the Watcher's Toil method.
+	// We want to make sure that if we watch another
+	// Toiler after the the Watcher's Toil method is
+	// called that this Toiler has its Toil method
+	// called as part of the Watch.
+		toiler := &testToilerForToil{waitgroup:&wg}
+		wg.Add(1)
+		watchdog.Watch(toiler)
+
+	// Confirm.
+	//
+	// The way this confirms is that if this is "hanging", then the Go runtime
+	// will panic with the error: "fatal error: all goroutines are asleep - deadlock!".
+		wg.Wait()
 }
 
 
@@ -55,7 +74,8 @@ func TestOneForAllToil(t *testing.T) {
 		var wg sync.WaitGroup
 
 	// Create 10 toilers.
-		for i:=1; i<=10; i++ {
+		const numChildToilers = 10
+		for i:=1; i<=numChildToilers; i++ {
 
 			// Create dummy toiler.
 			//
@@ -69,6 +89,24 @@ func TestOneForAllToil(t *testing.T) {
 
 	// Toil
 		watchdog.Toil()
+
+	// Confirm.
+	//
+	// The way this confirms is that if this is "hanging", then the Go runtime
+	// will panic with the error: "fatal error: all goroutines are asleep - deadlock!".
+		wg.Wait()
+
+
+	// Add another Toiler.
+	//
+	// We've already called the Watcher's Toil method.
+	// We want to make sure that if we watch another
+	// Toiler after the the Watcher's Toil method is
+	// called that this Toiler has its Toil method
+	// called as part of the Watch.
+		toiler := &testToilerForToil{waitgroup:&wg}
+		wg.Add(1)
+		watchdog.Watch(toiler)
 
 	// Confirm.
 	//
