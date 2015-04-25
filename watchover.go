@@ -19,7 +19,7 @@ func (dog *wdt) watchover() {
 						close(msg.done)
 					case toil:
 						for _,toiler := range dog.toilers {
-							watchedToil(toiler, func(){
+							watchedToil(toiler, func(exception interface{}){
 								dog.crashed(toiler)
 							})
 						}
@@ -28,7 +28,7 @@ func (dog *wdt) watchover() {
 					case watch:
 						dog.toilers = append(dog.toilers, msg.toiler)
 						if toiling {
-							watchedToil(msg.toiler, func(){
+							watchedToil(msg.toiler, func(exception interface{}){
 								dog.crashed(msg.toiler)
 							})
 						}

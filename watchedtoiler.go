@@ -37,7 +37,7 @@ func (wt *watchedToiler) Terminate() {
 }
 
 func (wt *watchedToiler) Toil() {
-	watchedToil(wt.toiler, func(){
+	watchedToil(wt.toiler, func(exception interface{}){
 		wt.Watcher().(*wdt).crashed(wt.toiler)
 	})
 }

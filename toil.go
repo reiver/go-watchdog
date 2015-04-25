@@ -37,12 +37,12 @@ func (dog *wdt) Toil() {
 // The crashFn func the Watcher passes to the watchedToil func is
 // a closure that invokes the Watcher's crashed method with the
 // Toiler as the parameter.
-func watchedToil(toiler Toiler, crashFn func()) {
+func watchedToil(toiler Toiler, crashFn func(interface{})) {
 
 	go func(){
 		defer func() {
 			if r := recover(); nil != r {
-				crashFn()
+				crashFn(r)
 			}
 		}()
 
