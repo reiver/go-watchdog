@@ -1,7 +1,7 @@
 package watchdog
 
 
-// Water is an interface that groups together Terminate, Toil and Watcher methods together.
+// WatchedToiler is an interface that groups together Terminate, Toil and Watcher methods together.
 //
 // A WatchedToiler is a Toiler (as it implements both the Terminate method and Toil method)
 // that is "binded" to a Watcher.
