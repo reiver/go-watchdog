@@ -1,8 +1,8 @@
 package watchdog
 
 
-// toil is used as a message which the Toil methods (defined in this file)
-// send to their respective Watchers.
+// toil is used as a message which the Toil method (defined in this file)
+// sends to its respective Watcher.
 //
 // The toil message contains a "done channel" which the Toil methods
 // use to make sure the toiling is completed before returning.
@@ -11,21 +11,9 @@ type toil struct {
 }
 
 
-// Toil is 1 of 3 methods needed by oneForOne to implement the Watcher interface.
-// Toil is also 1 of 2 methods needed by oneForOne to implement the Toiler interface.
-func (dog *oneForOne) Toil() {
-	done := make(chan struct{})
-
-	dog.message <- toil{
-		done:done,
-	}
-
-	<-done
-}
-
-// Toil is 1 of 3 methods needed by oneForAll to implement the Watcher interface.
-// Toil is also 1 of 2 methods needed by oneForAll to implement the Toiler interface.
-func (dog *oneForAll) Toil() {
+// Toil is 1 of 4 methods needed by wdt to implement the Watcher interface.
+// Toil is also 1 of 2 methods needed by wdt to implement the Toiler interface.
+func (dog *wdt) Toil() {
 	done := make(chan struct{})
 
 	dog.message <- toil{

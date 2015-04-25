@@ -15,7 +15,7 @@ func TestOneForOneWatch(t *testing.T) {
 		watchdog := NewOneForOne()
 
 	// Confirm.
-		if expected, actual := 0, len(watchdog.(*oneForOne).toilers); expected != actual {
+		if expected, actual := 0, len(watchdog.(*wdt).toilers); expected != actual {
 			t.Errorf("For initial watchdog, expected %d toilers but got %d.", expected, actual)
 		}
 
@@ -32,7 +32,7 @@ func TestOneForOneWatch(t *testing.T) {
 				watchdog.Watch(toiler)
 
 			// Confirm.
-				if expected, actual := i, len(watchdog.(*oneForOne).toilers); expected != actual {
+				if expected, actual := i, len(watchdog.(*wdt).toilers); expected != actual {
 					t.Errorf("After adding toiler to watchdog, expected %d toilers but got %d.", expected, actual)
 				}
 		}
@@ -45,7 +45,7 @@ func TestOneForAllWatch(t *testing.T) {
 		watchdog := NewOneForAll()
 
 	// Confirm.
-		if expected, actual := 0, len(watchdog.(*oneForAll).toilers); expected != actual {
+		if expected, actual := 0, len(watchdog.(*wdt).toilers); expected != actual {
 			t.Errorf("For initial watchdog, expected %d toilers but got %d.", expected, actual)
 		}
 
@@ -62,7 +62,7 @@ func TestOneForAllWatch(t *testing.T) {
 				watchdog.Watch(toiler)
 
 			// Confirm.
-				if expected, actual := i, len(watchdog.(*oneForAll).toilers); expected != actual {
+				if expected, actual := i, len(watchdog.(*wdt).toilers); expected != actual {
 					t.Errorf("After adding toiler to watchdog, expected %d toilers but got %d.", expected, actual)
 				}
 		}

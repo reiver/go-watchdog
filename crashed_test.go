@@ -62,19 +62,24 @@ func TestOneForOneCrashed(t *testing.T) {
 	// will panic with the error: "fatal error: all goroutines are asleep - deadlock!".
 		toilWg.Wait()
 
+
 	// Crash one child and confirm.
 	//
 	// For the 'one for one' watchdog, only the crashed toilers should be restarted.
 	//
 	// The way this confirms is that if this is "hanging", then the Go runtime
 	// will panic with the error: "fatal error: all goroutines are asleep - deadlock!".
-		terminateWg.Add(1)
-		toilWg.Add(1)
+	//
+	// We do this test 10 times.
+		for i:=0; i<10; i++ {
+			terminateWg.Add(1)
+			toilWg.Add(1)
 
-		death <- struct{}{}
+			death <- struct{}{}
 
-		terminateWg.Wait()
-		toilWg.Wait()
+			terminateWg.Wait()
+			toilWg.Wait()
+		}
 }
 
 
@@ -125,11 +130,15 @@ func TestOneForAllCrashed(t *testing.T) {
 	//
 	// The way this confirms is that if this is "hanging", then the Go runtime
 	// will panic with the error: "fatal error: all goroutines are asleep - deadlock!".
-		terminateWg.Add(numChildToilers)
-		toilWg.Add(numChildToilers)
+	//
+	// We do this test 10 times.
+		for i:=0; i<10; i++ {
+			terminateWg.Add(numChildToilers)
+			toilWg.Add(numChildToilers)
 
-		death <- struct{}{}
+			death <- struct{}{}
 
-		terminateWg.Wait()
-		toilWg.Wait()
+			terminateWg.Wait()
+			toilWg.Wait()
+		}
 }

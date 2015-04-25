@@ -13,17 +13,16 @@ type oneForOne struct {
 // by calling the Toiler's Terminate method and then its Toil method.
 // (The other watched Toilers will be left alone.)
 func NewOneForOne() Watcher {
-	terminate := make(chan terminate)
-	message   := make(chan interface{})
-	toilers   := make([]Toiler, 0, defaultLengthOfToilersSlice)
 
-	watcher := oneForOne{
-		terminate:terminate,
-		message:message,
-		toilers:toilers,
-	}
+	return newWatchDog(oneForOneCrashedStrategy)
+}
 
-	go watcher.watchover()
 
-	return &watcher
+// oneForOneCrashedStrategy implements the strategy to use to handle crashing of a Toiler
+// for the "one for one" Watcher.
+//
+// Only the Toiler that crashed is restarted. The rest are left alone.
+func oneForOneCrashedStrategy(watchedToiler WatchedToiler) {
+	watchedToiler.Terminate()
+	watchedToiler.Toil()
 }

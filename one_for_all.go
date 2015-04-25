@@ -12,17 +12,21 @@ type oneForAll struct {
 // and if one of them fails then all the Toilers will be restarted, 
 // by calling the Toiler's Terminate method and then its Toil method.
 func NewOneForAll() Watcher {
-	terminate := make(chan terminate)
-	message   := make(chan interface{})
-	toilers   := make([]Toiler, 0, defaultLengthOfToilersSlice)
 
-	watcher := oneForAll{
-		terminate:terminate,
-		message:message,
-		toilers:toilers,
-	}
-
-	go watcher.watchover()
-
-	return &watcher
+	return newWatchDog(oneForAllCrashedStrategy)
 }
+
+
+// oneForAllCrashedStrategy implements the strategy to use to handle crashing of a Toiler
+// for the "one for all" Watcher.
+//
+// All the Toilers are restarted.
+func oneForAllCrashedStrategy(watchedToiler WatchedToiler) {
+	watcher := watchedToiler.Watcher()
+
+	watcher.Map(func(watchedToiler WatchedToiler){
+		watchedToiler.Terminate()
+		watchedToiler.Toil()
+	})
+}
+
