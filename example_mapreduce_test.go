@@ -95,7 +95,7 @@ func (m *Mapper) Map(n int) {
 //
 //	7, 6, 5, 4, 3, 2, 1 -> Map -> 6, 4, 2 -> Reduce -> 12 (= 2+4+6)
 //
-func Example_mapreduce() {
+func Example_mapReduce() {
 
 	// Create the reducer.
 		reducer := NewReducer()
