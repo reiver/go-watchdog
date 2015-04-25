@@ -10,6 +10,8 @@ package watchdog
 // will return the Watcher. And #2 when the Toil method of the WatchedToiler is invoked the
 // underlying Toiler's Toil method is invoked in a special way so that the Watcher is
 // watching it (for panic()s).
+//
+// You would receive a WatchedToiler if you use a Watcher's Map method.
 type WatchedToiler interface {
 	Terminate()
 	Toil()
