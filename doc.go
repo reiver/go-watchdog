@@ -122,10 +122,14 @@ Crash-only software can be described as:
 There is only one way to stop such software—by crashing it—and only one way to bring it up—by initiating recovery.
 Crash-only systems are built from crash-only components, and the use of transparent component-level retries hides intra-system component crashes from end users." [1]
 
-The Toiler interface tries to embody these ideas. It only contains 2 methods: Terminate and Toil.
-The Toiler's Terminate method can be thought of (manually) crashing the Toiler.
-(Although the Toiler can crash itself by calling panic().)
-The Toiler's Toil method can be thought of 'bringing up' the Toiler.
+One way of thinking of at least part of this is that, many kinds of software failures can be
+recovered from  by rebooting the entire software system. However, it is not always necessary to
+reboot the entire software system to recover. Sometimes rebooting (small) components within the
+software system (instead of rebooting the entire software system) can equally recover from the
+failure. The advantage of rebooting some (small) components is that it is orders of magnitude
+faster, than rebooting the entire software system. This (increased) speed of recovery is a useful
+property for those interested in 'highly available' software system. Also 'high availability' is
+a concern for those leaning on the "A"-side of 'CAP theorem'.
 
 There are properties of 'crash-only software' that [1] lists:
 
@@ -149,6 +153,16 @@ You can find more information about 'crash-only software' at:
 [2] http://brooker.co.za/blog/2012/01/22/crash-only.html
 
 [3] http://web.archive.org/web/20060426230247/http://crash.stanford.edu/
+
+Toiler as Crash-Only Software
+
+The Toiler interface tries to embody some of these ideas.
+It only contains 2 methods: Terminate and Toil.
+
+The Toiler's Terminate method can be thought of (manually) crashing the Toiler.
+(Although the Toiler can crash itself by calling panic().)
+
+The Toiler's Toil method can be thought of 'bringing up' the Toiler.
 
 */
 package watchdog
