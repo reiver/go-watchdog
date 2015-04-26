@@ -110,6 +110,34 @@ A Watcher is also a Toiler. So you can nest watchers. For example:
 	right.Watch(toiler4)
 	right.Watch(toiler5)
 
+Understanding the Toil method
+
+The Toil method is an important method of the Toiler, WatchedToiler and Watcher interfaces.
+And should be considered the "same" method (regardless of the interface it comes from).
+
+From the point-of-view of a Watcher watching a Toiler (or watching another Watcher), there
+are 3 types of things that can happen when the Watch invokes the Toiler's Toil method.
+
+#1: the Toiler's Toil method can be blocking.
+
+#2: the Toiler's Toil method can throw a panic().
+
+#3: the Toiler's Toil method can return (normally).
+
+(Note that situation #1 and turn into situation #2 or #3 later in time.)
+
+In situation #1, this is when we can truely say that the Watcher is watching the Toiler.
+
+In situation #2, likely the Watcher will restart the Toiler (and maybe other Toilers)
+and try to get back to situation #1.
+
+In situation #3, the Watcher will unwatch the Toiler.
+
+Therefore, when you create a Toiler, you should (try to) make its Toil method block (and not
+return) when you want it to be watched by a Watcher.
+
+If you want the Watcher to stop watching it, then return from the Toil method.
+
 Motivation
 
 The motivation for this library is to make it easier to create software that follows the 'crash-only software' design pattern.
