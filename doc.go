@@ -56,7 +56,7 @@ There are 2 types of built-in watchers: "one for all" and "one for one".
 
 One For All
 
-A "one for one" watcher is created with the NewOneForAll() func. As in:
+A "one for all" watcher is created with the watchdog.NewOneForAll() func. As in:
 
 	watcher := watchdog.NewOneForAll()
 
@@ -75,7 +75,7 @@ and then calling the Toil method on all the toilers.
 
 One For One
 
-A "one for one" watcher is created with the NewOneForOne() func. As in:
+A "one for one" watcher is created with the watchdog.NewOneForOne() func. As in:
 
 	watcher := watchdog.NewOneForOne()
 
