@@ -65,7 +65,7 @@ func TestOneForOneReturned(t *testing.T) {
 		}
 
 	// Toil.
-		watcher.Toil()
+		go watcher.Toil()
 
 	// Confirm.
 	//
@@ -121,7 +121,7 @@ func TestOneForAllReturned(t *testing.T) {
 		}
 
 	// Toil.
-		watcher.Toil()
+		go watcher.Toil()
 
 	// Confirm.
 	//

@@ -43,7 +43,7 @@ func Example_restart() {
 			watcher.Watch(toiler)
 		}
 
-		watcher.Toil() // ← Don't forget this!
+		go watcher.Toil() // ← Don't forget this!
 
 	// Restart all of the Toilers being watched by the Watcher.
 		count := 0

@@ -9,6 +9,7 @@ package watchdog
 func (dog *wdt) watchover() {
 
 	toiling := false
+	toilListeners := make([]chan struct{}, 0, defaultLengthOfToilListenersSlice)
 
 	Loop: for {
 		select {
@@ -20,6 +21,12 @@ func (dog *wdt) watchover() {
 					case returned:
 						dog.doUnwatch(msg.toiler)
 						close(msg.done)
+						if 0 >= len(dog.toilers) {
+							for _,toilDone := range toilListeners {
+								close(toilDone)
+							}
+							break Loop
+						}
 					case toil:
 						for _,toiler := range dog.toilers {
 							watchedToil(toiler, func(exception interface{}){
@@ -29,7 +36,7 @@ func (dog *wdt) watchover() {
 							})
 						}
 						toiling = true
-						close(msg.done)
+						toilListeners = append(toilListeners, msg.done)
 					case watch:
 						dog.toilers = append(dog.toilers, msg.toiler)
 						if toiling {

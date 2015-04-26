@@ -37,7 +37,7 @@ func TestOneForOneToil(t *testing.T) {
 		}
 
 	// Toil
-		watchdog.Toil()
+		go watchdog.Toil()
 
 	// Confirm.
 	//
@@ -88,7 +88,7 @@ func TestOneForAllToil(t *testing.T) {
 		}
 
 	// Toil
-		watchdog.Toil()
+		go watchdog.Toil()
 
 	// Confirm.
 	//

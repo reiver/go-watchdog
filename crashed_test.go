@@ -54,7 +54,7 @@ func TestOneForOneCrashed(t *testing.T) {
 		}
 
 	// Toil.
-		watchdog.Toil()
+		go watchdog.Toil()
 
 	// Confirm.
 	//
@@ -116,7 +116,7 @@ func TestOneForAllCrashed(t *testing.T) {
 		}
 
 	// Toil.
-		watchdog.Toil()
+		go watchdog.Toil()
 
 	// Confirm.
 	//

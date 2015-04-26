@@ -121,7 +121,7 @@ func Example_mapReduce() {
 			reducer.AddMapper(1)
 		}
 
-		mappers.Toil() // ← Don't forget this!
+		go mappers.Toil() // ← Don't forget this!
 
 	// Send numbers to mappers.
 	//
