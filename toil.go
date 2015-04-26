@@ -26,30 +26,41 @@ func (dog *wdt) Toil() {
 
 // watchedToil "runs" a Toiler in such a way that it can detect and
 // capture a panic() from the Toiler's Toil method and, through the
-// use of the crashFn func. notify the Watcher about the panic().
+// use of the crashedFn func notify the Watcher about the panic().
 //
 // Each Watcher uses this watchedToil func to detect and capture a
 // panic() from a Toiler's Toil method. The Watcher passes a
-// special crashFn (closure) func to the watchedToil func so that
+// special crashedFn (closure) func to the watchedToil func so that
 // it can be notified when a Toiler's Toil method has crashes, and
 // it (the Watcher) should take the appropriate action.
 //
-// The crashFn func the Watcher passes to the watchedToil func is
+// The crashedFn func the Watcher passes to the watchedToil func is
 // a closure that invokes the Watcher's crashed method with the
 // Toiler as the parameter.
-func watchedToil(toiler Toiler, crashFn func(interface{})) {
+//
+// watchedToil is also able to detect if the Toiler's Toil method
+// has returned and also notifies the Watcher about that too.
+//
+// Each Watcher uses this watchedToil func to detect if the Toiler's
+// Toil method has returned. The Watcher passes a secial returnFn
+// (closure) func to this watchedToil func so that it can be
+// notified when the Toiler's Toil methods has returned, and it
+// (the Watcher) should take the appropriate action.
+//
+// The returnedFn func the Watcher passes to the watchedToil func
+// is a closure that invokes the Watcher's returned method with the
+// Toiler as the parameter.
+func watchedToil(toiler Toiler, crashedFn func(interface{}), returnedFn func()) {
 
 	go func(){
 		defer func() {
 			if r := recover(); nil != r {
-				crashFn(r)
+				crashedFn(r)
 			}
 		}()
 
 		toiler.Toil()
 
-		//@TODO: What should be done if the toiler.Toil() method
-		//       simply returns?
-		//       Should it be restarted? Should it be removed from the Watcher?
+		returnedFn()
 	}()
 }
