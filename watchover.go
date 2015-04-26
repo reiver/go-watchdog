@@ -28,14 +28,16 @@ func (dog *wdt) watchover() {
 							break Loop
 						}
 					case toil:
-						for _,toiler := range dog.toilers {
-							watchedToil(toiler, func(exception interface{}){
-								dog.crashed(toiler)
-							}, func(){
-								dog.returned(toiler)
-							})
+						if !toiling {
+							for _,toiler := range dog.toilers {
+								watchedToil(toiler, func(exception interface{}){
+									dog.crashed(toiler)
+								}, func(){
+									dog.returned(toiler)
+								})
+							}
+							toiling = true
 						}
-						toiling = true
 						toilListeners = append(toilListeners, msg.done)
 					case watch:
 						dog.toilers = append(dog.toilers, msg.toiler)
