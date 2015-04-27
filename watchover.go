@@ -57,6 +57,12 @@ func (dog *wdt) watchover() {
 				for _,toiler := range dog.toilers {
 					toiler.Terminate()
 				}
+				if 0 >= len(dog.toilers) {
+					for _,toilDone := range toilListeners {
+						close(toilDone)
+					}
+					break Loop
+				}
 				close(trmnt.done)
 				break Loop
 				//@TODO
